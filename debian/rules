@@ -1,0 +1,88 @@
+#!/usr/bin/make -f
+# -*- makefile -*-
+
+# Uncomment this to turn on verbose mode.
+#export DH_VERBOSE=1
+
+export QUILT_PATCHES=debian/patches
+export QUILT_SERIES=debian/patches/series
+export QUILT_PATCH_OPTS=-p1
+
+export DEB_HOST_MULTIARCH ?= $(shell dpkg-architecture -qDEB_HOST_MULTIARCH)
+export DEB_BUILD_MAINT_OPTIONS = hardening=+all
+DPKG_EXPORT_BUILDFLAGS = 1
+include /usr/share/dpkg/buildflags.mk
+CFLAGS+=$(CPPFLAGS)
+CXXFLAGS+=$(CPPFLAGS)
+
+# out of tree build folder for vmime library
+DEB_BUILD_DIR=debian/build
+# default install folder
+INSTDIR=$(CURDIR)/debian/tmp
+
+DEB_LIBVMIME_CMAKE_OPTS := \
+ -DCMAKE_C_COMPILER="$(CC)" \
+ -DCMAKE_CXX_COMPILER="$(CXX)" \
+ -DCMAKE_CXX_FLAGS="$(CXXFLAGS)" \
+ -DCMAKE_SHARED_LINKER_FLAGS_RELEASE="$(LDFLAGS)" \
+ -DCMAKE_VERBOSE_MAKEFILE=ON \
+ -DCMAKE_INSTALL_PREFIX=/usr \
+ -DCMAKE_INSTALL_INCLUDEDIR=include/vmime-kopano \
+ -DVMIME_BUILD_SAMPLES=OFF \
+ -DVMIME_INSTALL_LIBDIR="/usr/lib/$(DEB_HOST_MULTIARCH)" \
+ -DVMIME_TLS_SUPPORT_LIB=gnutls \
+ -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+ -DBUILD_SHARED_LIBS=ON \
+ -DENABLE_DOC=OFF \
+ -DVMIME_SENDMAIL_PATH=/usr/sbin/sendmail \
+ -G "Unix Makefiles" \
+ $(CURDIR) \
+ $(NULL)
+
+PREPROCESS_FILES := $(wildcard debian/*.in)
+
+$(PREPROCESS_FILES:.in=): %: %.in
+	sed 's,/@DEB_HOST_MULTIARCH@,$(DEB_HOST_MULTIARCH:%=/%),g' $< > $@
+
+%:
+	dh $@
+
+override_dh_auto_configure:
+	@echo
+	@echo "######################"
+	@echo "# configure libvmime #"
+	@echo "######################"
+	@echo
+	# libvmime doesn't have preconfigured cmake options for using dh_auto_configure
+	# so we need to call the cmake setup manually.
+	mkdir -p $(DEB_BUILD_DIR); \
+	cd $(DEB_BUILD_DIR); \
+	cmake $(DEB_LIBVMIME_CMAKE_OPTS)
+
+override_dh_auto_build-arch:
+	@echo
+	@echo "#####################"
+	@echo "# building libvmime #"
+	@echo "#####################"
+	@echo
+	dh_quilt_patch
+	dh_auto_build  --sourcedirectory=$(CURDIR) --builddirectory=$(DEB_BUILD_DIR)
+
+override_dh_auto_install-arch: $(PREPROCESS_FILES:.in=)
+	@echo
+	@echo "#######################"
+	@echo "# installing libvmime #"
+	@echo "#######################"
+	@echo
+	dh_auto_install --destdir=$(INSTDIR) --sourcedirectory=$(CURDIR) --builddirectory=$(DEB_BUILD_DIR)
+	# pkg-config auf eigenen Namen/an eigene Header anpassen
+	mv debian/tmp/usr/include/vmime debian/tmp/usr/include/vmime-kopano
+	pcdir=debian/tmp/usr/lib/pkgconfig; \
+	mkdir -p $$pcdir; \
+	if [ -f $$pcdir/vmime.pc ]; then \
+		 sed -e 's@^Name:.*@Name: vmime-kopano@' \
+		-e 's@-I${includedir}/@-I${includedir}/vmime-kopano @g' \
+		-e 's@^Libs:.*@Libs: -L$${libdir} -lvmime-kopano@' \
+		$$pcdir/vmime.pc > $$pcdir/vmime-kopano.pc; \
+		 rm -f $$pcdir/vmime.pc; \
+	fi

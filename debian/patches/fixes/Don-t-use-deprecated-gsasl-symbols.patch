@@ -1,0 +1,22 @@
+From: Simon Josefsson <simon@josefsson.org>
+Date: Fri, 8 Jan 2021 03:25:09 +0100
+Subject: [PATCH] Don't use deprecated gsasl symbols.
+
+This is upstream commit:
+https://github.com/kisli/vmime/commit/c750e899b8b3a76379167148468e164b7e52f6e2
+---
+ src/vmime/security/sasl/SASLContext.cpp | 2 --
+ 1 file changed, 2 deletions(-)
+
+diff -Naur a/src/vmime/security/sasl/SASLContext.cpp b/src/vmime/security/sasl/SASLContext.cpp
+--- a/src/vmime/security/sasl/SASLContext.cpp
++++ b/src/vmime/security/sasl/SASLContext.cpp
+@@ -196,8 +196,6 @@
+ 		ERROR(GSASL_GSSAPI_ACQUIRE_CRED_ERROR)
+ 		ERROR(GSASL_GSSAPI_DISPLAY_NAME_ERROR)
+ 		ERROR(GSASL_GSSAPI_UNSUPPORTED_PROTECTION_ERROR)
+-		ERROR(GSASL_KERBEROS_V5_INIT_ERROR)
+-		ERROR(GSASL_KERBEROS_V5_INTERNAL_ERROR)
+ 		ERROR(GSASL_SECURID_SERVER_NEED_ADDITIONAL_PASSCODE)
+ 		ERROR(GSASL_SECURID_SERVER_NEED_NEW_PIN)
+ 

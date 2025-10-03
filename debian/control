@@ -1,0 +1,58 @@
+Source: vmime-kopano
+Priority: optional
+Maintainer: leecher <leecher@dose.0wnz.at>
+Uploaders: leecher <leecher@dose.0wnz.at>
+Build-Depends:
+  cmake,
+  debhelper-compat (= 13),
+  pkg-config,
+  libgnutls28-dev (>= 3.4.0),
+  libgsasl7-dev,
+  libicu-dev,
+  zlib1g-dev,
+  quilt
+Rules-Requires-Root: binary-targets
+Standards-Version: 4.6.0
+Section: libs
+
+Package: libvmime-kopano-dev
+Section: libdevel
+Architecture: any
+Depends:
+  libgnutls28-dev (>= 3.4.0~),
+  libgsasl7-dev,
+  libicu-dev,
+  zlib1g-dev,
+  libvmime-kopano3 (= ${binary:Version}),
+  ${misc:Depends},
+Description: C++ mail library (development files)
+ VMime is a powerful C++ class library for parsing, generating, or editing
+ Internet RFC-[2]822 and MIME messages. VMime is designed to provide a fast
+ and an easy way to manipulate Internet mail messages.
+ .
+ The recent releases of VMime also include support for using messaging
+ protocols (POP3, IMAP, SMTP and maildir) with a lot of features supported:
+ listing folders, downloading and adding messages to folders, extracting parts
+ from message, getting and setting message flags, and a lot more.
+ .
+ This package contains the development headers and the static library to
+ develop applications using the libvmime.
+ .
+ This is the Kopano fork needed for kopanocore package
+
+Package: libvmime-kopano3
+Architecture: any
+Multi-Arch: same
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: C++ mail library (runtime library)
+ VMime is a powerful C++ class library for parsing, generating, or editing
+ Internet RFC-[2]822 and MIME messages. VMime is designed to provide a fast
+ and an easy way to manipulate Internet mail messages.
+ .
+ The recent releases of VMime also include support for using messaging
+ protocols (POP3, IMAP, SMTP and maildir) with a lot of features supported:
+ listing folders, downloading and adding messages to folders, extracting parts
+ from message, getting and setting message flags, and a lot more.
+ .
+ This is the Kopano fork needed for kopanocore package
+

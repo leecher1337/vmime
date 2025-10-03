@@ -1,0 +1,5 @@
+vmime-kopano (0.9.2k4-1~bookworm1) UNRELEASED; urgency=medium
+
+  * Initial Kopano vmime fork packaging
+
+ -- leecher1337 <leecher@dose.0wnz.at>  Fri, 03 Oct 2025 15:51:24 +0200

@@ -1,0 +1,55 @@
+From: =?utf-8?b?IkzDoXN6bMOzIELDtnN6w7ZybcOpbnlpIChHQ1MpIg==?=
+ <gcs@debian.org>
+Date: Sat, 22 Jan 2022 12:13:49 +0100
+Subject: Compatibility: Use C99 / C++ analogues for TRUE/FALSE
+
+Since ICU 68.1 TRUE and FALSE are no longer defined. Use their C99 / C++
+analogues, ie use them in lowercase.
+
+This is patch is required to be compatible with ICU >= 70.1.
+
+Forwarded: no
+Last-Update: 2022-01-19
+---
+ src/vmime/charsetConverter_icu.cpp | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff -Naur a/src/vmime/charsetConverter_icu.cpp b/src/vmime/charsetConverter_icu.cpp
+--- a/src/vmime/charsetConverter_icu.cpp
++++ b/src/vmime/charsetConverter_icu.cpp
+@@ -413,7 +413,7 @@
+ 
+ 		ucnv_toUnicode(
+ 			m_from, &uniTarget, uniTargetLimit,
+-			&uniSource, uniSourceLimit, NULL, /* flush */ FALSE, &toErr
++			&uniSource, uniSourceLimit, NULL, /* flush */ false, &toErr
+ 		);
+ 
+ 		if (U_FAILURE(toErr) && toErr != U_BUFFER_OVERFLOW_ERROR) {
+@@ -453,7 +453,7 @@
+ 
+ 			ucnv_fromUnicode(
+ 				m_to, &cpTarget, cpTargetLimit,
+-				&cpSource, cpSourceLimit, NULL, /* flush */ FALSE, &fromErr
++				&cpSource, cpSourceLimit, NULL, /* flush */ false, &fromErr
+ 			);
+ 
+ 			if (fromErr != U_BUFFER_OVERFLOW_ERROR && U_FAILURE(fromErr)) {
+@@ -509,7 +509,7 @@
+ 
+ 		ucnv_toUnicode(
+ 			m_from, &uniTarget, uniTargetLimit,
+-			&uniSource, uniSourceLimit, NULL, /* flush */ TRUE, &toErr
++			&uniSource, uniSourceLimit, NULL, /* flush */ true, &toErr
+ 		);
+ 
+ 		if (U_FAILURE(toErr) && toErr != U_BUFFER_OVERFLOW_ERROR) {
+@@ -540,7 +540,7 @@
+ 
+ 			ucnv_fromUnicode(
+ 				m_to, &cpTarget, cpTargetLimit,
+-				&cpSource, cpSourceLimit, NULL, /* flush */ TRUE, &fromErr
++				&cpSource, cpSourceLimit, NULL, /* flush */ true, &fromErr
+ 			);
+ 
+ 			if (fromErr != U_BUFFER_OVERFLOW_ERROR && U_FAILURE(fromErr)) {
