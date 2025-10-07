@@ -77,12 +77,7 @@ override_dh_auto_install-arch: $(PREPROCESS_FILES:.in=)
 	dh_auto_install --destdir=$(INSTDIR) --sourcedirectory=$(CURDIR) --builddirectory=$(DEB_BUILD_DIR)
 	# pkg-config auf eigenen Namen/an eigene Header anpassen
 	mv debian/tmp/usr/include/vmime debian/tmp/usr/include/vmime-kopano
+	ln -snf . debian/tmp/usr/include/vmime-kopano/vmime
 	pcdir=debian/tmp/usr/lib/pkgconfig; \
 	mkdir -p $$pcdir; \
-	if [ -f $$pcdir/vmime.pc ]; then \
-		 sed -e 's@^Name:.*@Name: vmime-kopano@' \
-		-e 's@-I$${includedir}/@-I$${includedir}/vmime-kopano @g' \
-		-e 's@^Libs:.*@Libs: -L$${libdir} -lvmime-kopano@' \
-		$$pcdir/vmime.pc > $$pcdir/vmime-kopano.pc; \
-		 rm -f $$pcdir/vmime.pc; \
-	fi
+	mv $$pcdir/vmime.pc $$pcdir/vmime-kopano.pc
