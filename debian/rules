@@ -81,7 +81,7 @@ override_dh_auto_install-arch: $(PREPROCESS_FILES:.in=)
 	mkdir -p $$pcdir; \
 	if [ -f $$pcdir/vmime.pc ]; then \
 		 sed -e 's@^Name:.*@Name: vmime-kopano@' \
-		-e 's@-I${includedir}/@-I${includedir}/vmime-kopano @g' \
+		-e 's@-I$${includedir}/@-I$${includedir}/vmime-kopano @g' \
 		-e 's@^Libs:.*@Libs: -L$${libdir} -lvmime-kopano@' \
 		$$pcdir/vmime.pc > $$pcdir/vmime-kopano.pc; \
 		 rm -f $$pcdir/vmime.pc; \
