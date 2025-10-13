@@ -1,7 +1,7 @@
 Source: vmime-kopano
 Priority: optional
-Maintainer: leecher <leecher@dose.0wnz.at>
-Uploaders: leecher <leecher@dose.0wnz.at>
+Maintainer: leecher1337 <leecher@dose.0wnz.at>
+Uploaders: leecher1337 <leecher@dose.0wnz.at>
 Build-Depends:
   cmake,
   debhelper-compat (= 13),
