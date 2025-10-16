@@ -1,0 +1,24 @@
+commit 22fea0b0f66e16cdf8cecf0c593fa4cbd047b76a
+Author: leecher1337 <leecher@dose.0wnz.at>
+Date:   Tue Oct 7 22:28:59 2025 +0200
+
+    vmime.pc modified for kopano-tagging
+
+diff --git a/vmime.pc.in b/vmime.pc.in
+index fc1103ef..10140cd0 100644
+--- a/vmime.pc.in
++++ b/vmime.pc.in
+@@ -3,11 +3,11 @@ exec_prefix=@exec_prefix@
+ libdir=@libdir@
+ includedir=@includedir@
+ 
+-Name: @VMIME_PACKAGE_NAME@
++Name: @VMIME_PACKAGE_NAME@-kopano
+ Description: @VMIME_PACKAGE_DESCRIPTION@
+ Version: @VMIME_PACKAGE_VERSION@
+ Requires.private: @VMIME_PKGCONFIG_REQUIRES@
+-Libs: -L${libdir} -l@VMIME_LIBRARY_NAME@
++Libs: -L${libdir} -l@VMIME_LIBRARY_NAME@-kopano
+ Libs.private: @VMIME_PKGCONFIG_LIBS@
+ Cflags: -I${includedir}/ @VMIME_PKGCONFIG_CFLAGS@
+ 
