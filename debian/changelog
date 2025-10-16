@@ -1,5 +1,7 @@
 vmime-kopano (0.9.2k4-1~bookworm1) UNRELEASED; urgency=medium
 
+  [ leecher1337 ]
   * Initial Kopano vmime fork packaging
+  * Add upstream fix 431305e from master (backported to 0.9.2k4).
 
- -- leecher1337 <leecher@dose.0wnz.at>  Fri, 03 Oct 2025 15:51:24 +0200
+ -- leecher1337 <leecher@dose.0wnz.at>  Wed, 15 Oct 2025 09:47:36 +0200
